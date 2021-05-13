@@ -64,10 +64,15 @@ end
 
 
 
-CreateThread(function()
-    if MenuOpen == false then
-        TmsCharment()
-        RenderScriptCams(0, 0, 0, 0, 0)
-        TriggerServerEvent("Tms:Chargement","OpneMenu")
-    end
+-- CreateThread(function()
+--     if MenuOpen == false then
+--         TmsCharment()
+--         RenderScriptCams(0, 0, 0, 0, 0)
+--         TriggerServerEvent("Tms:Chargement","OpneMenu")
+--     end
+-- end)
+
+
+AddEventHandler('onClientMapStart', function()
+    TmsCharment()
 end)
