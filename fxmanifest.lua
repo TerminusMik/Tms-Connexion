@@ -18,20 +18,8 @@ client_scripts {
     'src/menu/panels/*.lua',
     'src/menu/windows/*.lua',
 
-}
-
-
-
-client_scripts {
-
     "client.lua",
-
 }
 
 
-
-server_scripts{
-
-    "server.lua",
-}
 
