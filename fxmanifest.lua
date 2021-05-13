@@ -18,7 +18,7 @@ client_scripts {
     'src/menu/panels/*.lua',
     'src/menu/windows/*.lua',
 
-    "client.lua",
+    "main.lua",
 }
 
 
