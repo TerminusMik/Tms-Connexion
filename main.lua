@@ -50,11 +50,9 @@ function TmsCharment()
     end
 end
 
-Citizen.CreateThread(function()
-    while true do 
-        Wait(0)
-        TmsCharment()
-    end
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(xPlayer)
+	TmsCharment()
 end)
 
 function Cam()
