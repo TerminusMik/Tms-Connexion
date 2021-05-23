@@ -50,29 +50,11 @@ function TmsCharment()
     end
 end
 
-
-RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(xPlayer)
-	PlayerLoaded = true
-end)
-
-AddEventHandler('playerSpawned', function()
-	Citizen.CreateThread(function()
-		while not PlayerLoaded do
-			Citizen.Wait(10)
-		end
-		if FirstSpawn then
-			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-				if skin == nil then
-					--TriggerEvent('clp_charact:create')
-				else
-                    TriggerEvent('skinchanger:loadSkin', skin)
-                    TmsCharment()
-				end
-			end)
-			FirstSpawn = false
-		end
-	end)
+Citizen.CreateThread(function()
+    while true do 
+        Wait(0)
+        TmsCharment()
+    end
 end)
 
 function Cam()
