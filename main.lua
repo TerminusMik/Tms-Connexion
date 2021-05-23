@@ -2,7 +2,7 @@ ESX = nil
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 local CameraCoords = {coords = vector3(-237.88, -832.78, 365.70)}
-
+local PlayerLoaded   = false
 local MenuOpen = false
 local TmsConnexionMenu = RageUI.CreateMenu("Chargement", "~y~Sun~w~Rise Chargement de votre personnage")
 TmsConnexionMenu:SetRectangleBanner(42, 48, 48, 255)
@@ -51,6 +51,29 @@ function TmsCharment()
 end
 
 
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(xPlayer)
+	PlayerLoaded = true
+end)
+
+AddEventHandler('playerSpawned', function()
+	Citizen.CreateThread(function()
+		while not PlayerLoaded do
+			Citizen.Wait(10)
+		end
+		if FirstSpawn then
+			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+				if skin == nil then
+					--TriggerEvent('clp_charact:create')
+				else
+                    TriggerEvent('skinchanger:loadSkin', skin)
+                    TmsCharment()
+				end
+			end)
+			FirstSpawn = false
+		end
+	end)
+end)
 
 function Cam()
     local coords = GetEntityCoords(GetPlayerPed(-1))
@@ -64,15 +87,3 @@ end
 
 
 
--- CreateThread(function()
---     if MenuOpen == false then
---         TmsCharment()
---         RenderScriptCams(0, 0, 0, 0, 0)
---         TriggerServerEvent("Tms:Chargement","OpneMenu")
---     end
--- end)
-
-
-AddEventHandler('onClientMapStart', function()
-    TmsCharment()
-end)
