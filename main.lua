@@ -50,10 +50,6 @@ function TmsCharment()
     end
 end
 
-RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(xPlayer)
-	TmsCharment()
-end)
 
 function Cam()
     local coords = GetEntityCoords(GetPlayerPed(-1))
@@ -64,6 +60,33 @@ function Cam()
    SetCamShakeAmplitude(cam, 3.0)
    SetEntityAlpha(coords, 150, 150)
 end
+
+local FirstSpawn     = true
+local PlayerLoaded   = false
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(xPlayer)
+	PlayerLoaded = true
+end)
+
+AddEventHandler('playerSpawned', function()
+	CreateThread(function()
+		while not PlayerLoaded do
+			Wait(10)
+		end
+		if FirstSpawn then
+			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+				if skin == nil then
+					TriggerEvent('skinchanger:loadSkin', {sex = 0})
+					
+				else
+                    TmsCharment()
+                    TriggerEvent('skinchanger:loadSkin', skin)
+				end
+			end)
+			FirstSpawn = false
+		end
+	end)
+end)
 
 
 
